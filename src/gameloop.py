@@ -20,23 +20,30 @@ def calulatePlayerAcc(player):
 def calulatePlayerVel(player):
     resVel = [0, 0, 0]
     for i, vel in enumerate(player["vel"]):
-        resVel[i] = (vel + player["acc"][i])*0.99
+        if (vel + player["acc"][i]) != 0:
+            negative = (vel + player["acc"][i])/abs((vel + player["acc"][i]))
+        else:
+            negative = 0
+        if (vel + player["acc"][i])*0.99:
+            resVel[i] = 0
+        resVel[i] = (vel + player["acc"][i])*0.99 - 0.01*negative
     maxSpeed = 0.6
     if resVel[0] > maxSpeed: resVel[0] = maxSpeed
     if resVel[1] > maxSpeed: resVel[1] = maxSpeed
     if resVel[0] < -maxSpeed: resVel[0] = -maxSpeed
     if resVel[1] < -maxSpeed: resVel[1] = -maxSpeed
     player["vel"] = resVel
-    print(resVel)
+    #print(resVel)
     return player
 
 def calulatePlayerPos(player):
     resPos = [0, 0, 0]
     for i, pos in enumerate(player["pos"]):
         resPos[i] = pos + player["vel"][i]
-    if resPos[0] < -500 :resPos[0] = -500
-    if resPos[0] > 500 :resPos[0] = 500
-    if resPos[1] < -400 :resPos[1] = -400
-    if resPos[1] > 400 :resPos[1] = 400
+    if resPos[0] < -109 :resPos[0] = -109
+    if resPos[0] > 109 :resPos[0] = 109
+    if resPos[1] < -90 :resPos[1] = -90
+    if resPos[1] > 90 :resPos[1] = 90
     player["pos"] = resPos
+    #print(resPos)
     return player
