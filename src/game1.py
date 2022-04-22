@@ -18,7 +18,6 @@ while True:
     playerVisual.pos.y = player['pos'][1]
     playerVisual.pos.z = player['pos'][2]
     enemies = calcEnemies(enemies, player)
-    print(enemies)
     #print(player)
 
 
