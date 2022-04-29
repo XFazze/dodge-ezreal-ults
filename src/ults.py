@@ -3,12 +3,12 @@ from copy import copy
 import math
 from random import uniform, randint
 
-def calcEnemies(enemies, player):
-    enemies = spawnEnemies(enemies, player)
-    for enemy in enemies:
+def calcEnemies(enemies, player, diff):
+    enemies = spawnEnemies(enemies, player, diff)
+    for i, enemy in enumerate(enemies):
         enemy = enemyPos(enemy)
         if enemy == None:
-            enemies.remove(enemy)
+            del enemies[i]
     return enemies
 
 def enemyPos(enemy):
@@ -16,7 +16,7 @@ def enemyPos(enemy):
     pos = enemy['pos']
     pos[0] = pos[0]+pos[3]
     pos[1] = pos[1]+pos[4]
-    if abs(pos[0]) > 110 or abs(pos[1]) > 110:
+    if abs(pos[0]) > 140 or abs(pos[1]) > 120:
         return None
 
     enemy['pos'] = pos
@@ -25,21 +25,21 @@ def enemyPos(enemy):
     
     return enemy
 
-def spawnEnemies(enemies, player):
-    print('ene',enemies)
-    if len(enemies) < 5:
+def spawnEnemies(enemies, player, diff):
+    if len(enemies) < diff:
         side = randint(0,1)
-        sp = randint(0,2)-1
-        sp2 = randint(0, 2)-1
+        sp = 1 if randint(0,1) == 0 else -1
+        sp2 = 1 if randint(0,1) == 0 else -1
         if side == 1:
-            pos = [sp2*110, sp*randint(30,70),0, sp2*-randint(1,10)/10, sp*-randint(1,10)/10]
-        elif side == 0:
+            print('side1')
+            pos = [sp2*130, sp*randint(30,70),0, sp2*-randint(1,10)/10, sp*-randint(1,10)/10]
+        else:
             pos = [sp*randint(30,70),sp2*110, 0,sp*-randint(1,10)/10,sp2*-randint(1,10)/10]
-
+            print('side2', pos)
 
         enemies.append({
             'pos' : pos,
-            'visual' : sphere(pos=vec(pos[0],pos[1],pos[2]), radius=2)
+            'visual' : sphere(pos=vec(pos[0],pos[1],pos[2]), radius=2, color=vec(1,0,0))
         })
         
     return enemies

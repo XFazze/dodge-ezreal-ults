@@ -1,4 +1,50 @@
 from vpython import *
+from ults import *
+from collition import *
+from time import time
+
+def gameLoop(playerVisual,player, enemies, speed):
+    startTime = time()
+    slowdiff = 2
+    #diffText = text(text=f'Enemies: {slowdiff}', pos=vec(-100,90,0), height=8)
+
+    while True:
+        rate(speed)
+        player, playerVisual = playerMovement(player,playerVisual)
+        diff = (round(time()-startTime)*2+5)
+        #if slowdiff != diff:
+            #print('wee')
+            #slowdiff = diff
+            #diffText.text = f'Enemies: {slowdiff}'
+            
+
+
+        enemies = calcEnemies(enemies, player, diff)
+        if collisionEnemies(player,enemies):
+            print('breaking')
+            break
+    print('died')
+    score = round(10*(time()-startTime))/10
+    scoreText = text(text=f'Score : {score}', pos=vec(-20,30,0), height=8)
+    sleep(1)
+    
+    continueText = text(text='Press button', pos=vec(-20,-30,0), height=8)
+    while True:
+        rate(speed)
+        k = keysdown()
+        if len(k) > 0:
+            continueText.visible = False
+            
+            scoreText.visible = False
+            #continueText = text(text="hej",pos=vec(-20,30,0),height=8,color=vec(0,0,0))
+            for enemy in enemies:
+                enemy["visual"].visible = False
+
+            break
+
+
+    print('go next')
+    #show dead
 
 
 def calulatePlayerAcc(player):
@@ -15,7 +61,6 @@ def calulatePlayerAcc(player):
         keyAcc[1] = -1*speedAcc
     player['acc'] = keyAcc
     return player
-
 
 def calulatePlayerVel(player):
     resVel = [0, 0, 0]
@@ -47,3 +92,12 @@ def calulatePlayerPos(player):
     player["pos"] = resPos
     #print(resPos)
     return player
+
+def playerMovement(player,playerVisual):
+    player = calulatePlayerAcc(player)
+    player = calulatePlayerVel(player)
+    player = calulatePlayerPos(player)
+    playerVisual.pos.x = player['pos'][0]
+    playerVisual.pos.y = player['pos'][1]
+    playerVisual.pos.z = player['pos'][2]
+    return player,playerVisual
