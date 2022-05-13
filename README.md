@@ -1,3 +1,3 @@
 # dodgeTheEzrealUlts
 
-A game with vpython. The aim is to dodge ezreal ults.
+Move with wasd to dodge the red balls. 
