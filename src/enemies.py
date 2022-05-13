@@ -1,10 +1,9 @@
-from vpython import *
+from vpython import vec, sphere
 from copy import copy
-import math
-from random import uniform, randint
+from random import randint
 
-def calcEnemies(enemies, player, diff):
-    enemies = spawnEnemies(enemies, player, diff)
+def calcEnemies(enemies, player, enemyAmount):
+    enemies = spawnEnemies(enemies, player, enemyAmount)
     for i, enemy in enumerate(enemies):
         enemy = enemyPos(enemy)
         if enemy == None:
@@ -25,17 +24,15 @@ def enemyPos(enemy):
     
     return enemy
 
-def spawnEnemies(enemies, player, diff):
-    if len(enemies) < diff:
+def spawnEnemies(enemies, player, enemyAmount):
+    if len(enemies) < enemyAmount:
         side = randint(0,1)
         sp = 1 if randint(0,1) == 0 else -1
         sp2 = 1 if randint(0,1) == 0 else -1
         if side == 1:
-            print('side1')
             pos = [sp2*130, sp*randint(30,70),0, sp2*-randint(1,10)/10, sp*-randint(1,10)/10]
         else:
             pos = [sp*randint(30,70),sp2*110, 0,sp*-randint(1,10)/10,sp2*-randint(1,10)/10]
-            print('side2', pos)
 
         enemies.append({
             'pos' : pos,

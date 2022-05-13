@@ -1,5 +1,3 @@
-from vpython import *
-
 def collisionEnemies(player, enemies):
     for enemy in enemies:
         if collisionEnemy(player, enemy):
@@ -7,17 +5,19 @@ def collisionEnemies(player, enemies):
     return False
 
 def collisionEnemy(player, enemy):
-    enemyRadius = 4
-    if abs(player['pos'][0] - enemy['pos'][0]) > enemyRadius:
+    enemyRadius = 5
+    if distanceBetweenSpheres(player, enemy) > enemyRadius:
         return False
-
-    if abs(player['pos'][1] - enemy['pos'][1]) > enemyRadius:
-        return False
-
-    print('its a contact')
 
     return True
 
+def distanceBetweenSpheres(sphere1, sphere2):
+    x = (sphere1['pos'][0] - sphere2['pos'][0])**2
+    y = (sphere1['pos'][1] - sphere2['pos'][1])**2
+    hypothenuse = (x+y)**0.5
+    return hypothenuse
+    
+# checks if player hit the start text
 def hitStart(player):
     if abs(player['pos'][0]) > 20:
         return False
